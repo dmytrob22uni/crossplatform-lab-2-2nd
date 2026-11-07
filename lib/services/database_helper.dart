@@ -10,6 +10,7 @@ class DatabaseHelper {
   static Database? _db;
 
   DatabaseHelper._init();
+
   Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await _initDB('app_database.db');
