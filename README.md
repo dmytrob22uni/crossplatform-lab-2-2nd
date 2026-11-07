@@ -1,6 +1,6 @@
 # Lab2 App - Users & Posts Feed
 
-A simple Flutter application for the Cross-Platform Software Systems lab. It fetches 20 users and 20 posts from [JSONPlaceholder API](https://jsonplaceholder.typicode.com), stores them in a local SQLite database, and displays them in a single reorderable list.
+A simple Flutter application which fetches 20 users and 20 posts from [JSONPlaceholder API](https://jsonplaceholder.typicode.com), stores them in a local SQLite database, and displays them in a single reorderable list.
 
 ## Setup & Run
 
