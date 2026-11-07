@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'models/app_models.dart';
 import 'services/api_service.dart';
 import 'services/database_helper.dart';
@@ -164,61 +165,74 @@ class _FeedScreenState extends State<FeedScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _items.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Text(
-                      'Database is empty.\nTap top-left refresh icon to fetch from API.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                    ),
-                  ),
-                )
-              : ReorderableListView.builder(
-                  itemCount: _items.length,
-                  onReorderItem: (int oldIndex, int newIndex) async {
-                    setState(() {
-                      final item = _items.removeAt(oldIndex);
-                      _items.insert(newIndex, item);
-                    });
-
-                    for (int i = 0; i < _items.length; i++) {
-                      final item = _items[i];
-                      await DatabaseHelper.instance.updateItemOrder(
-                        item.id,
-                        item is UserItem,
-                        i,
-                      );
-                    }
-                  },
-                  itemBuilder: (context, index) {
-                    final item = _items[index];
-                    return ListTile(
-                      key: ValueKey(item.id.toString() + (item is UserItem ? 'u' : 'p')),
-                      leading: CircleAvatar(
-                        backgroundColor: item is UserItem ? Colors.deepPurple.shade100 : Colors.blueAccent,
-                        child: item is UserItem
-                            ? Text(item.name.isNotEmpty ? item.name[0].toUpperCase() : 'U')
-                            : const Icon(Icons.article_outlined, color: Colors.white),
-                      ),
-                      title: Text(
-                        item is UserItem ? item.name : (item as PostItem).title,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        item is UserItem ? '@${item.username} • ${item.email}' : (item as PostItem).body,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                        onPressed: () => _deleteItem(index, item),
-                      ),
-                    );
-                  },
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                  'Database is empty.\nTap top-left refresh icon to fetch from API.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
+              ),
+            )
+          : ReorderableListView.builder(
+              itemCount: _items.length,
+              onReorderItem: (int oldIndex, int newIndex) async {
+                setState(() {
+                  final item = _items.removeAt(oldIndex);
+                  _items.insert(newIndex, item);
+                });
+
+                for (int i = 0; i < _items.length; i++) {
+                  final item = _items[i];
+                  await DatabaseHelper.instance.updateItemOrder(
+                    item.id,
+                    item is UserItem,
+                    i,
+                  );
+                }
+              },
+              itemBuilder: (context, index) {
+                final item = _items[index];
+                return ListTile(
+                  key: ValueKey(
+                    item.id.toString() + (item is UserItem ? 'u' : 'p'),
+                  ),
+                  leading: CircleAvatar(
+                    backgroundColor: item is UserItem
+                        ? Colors.deepPurple.shade100
+                        : Colors.blueAccent,
+                    child: item is UserItem
+                        ? Text(
+                            item.name.isNotEmpty
+                                ? item.name[0].toUpperCase()
+                                : 'U',
+                          )
+                        : const Icon(
+                            Icons.article_outlined,
+                            color: Colors.white,
+                          ),
+                  ),
+                  title: Text(
+                    item is UserItem ? item.name : (item as PostItem).title,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    item is UserItem
+                        ? '@${item.username} • ${item.email}'
+                        : (item as PostItem).body,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete_outline, color: Colors.red),
+                    onPressed: () => _deleteItem(index, item),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

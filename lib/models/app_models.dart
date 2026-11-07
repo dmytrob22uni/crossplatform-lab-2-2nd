@@ -67,12 +67,7 @@ class PostItem extends FeedItem {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'body': body,
-      'sort_order': sortOrder,
-    };
+    return {'id': id, 'title': title, 'body': body, 'sort_order': sortOrder};
   }
 
   factory PostItem.fromMap(Map<String, dynamic> map) {

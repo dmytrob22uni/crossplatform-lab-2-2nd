@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 import '../models/app_models.dart';
 
 class DatabaseHelper {
@@ -8,7 +10,6 @@ class DatabaseHelper {
   static Database? _db;
 
   DatabaseHelper._init();
-
   Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await _initDB('app_database.db');
@@ -29,8 +30,12 @@ class DatabaseHelper {
       onCreate: _createDB,
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          await db.execute('ALTER TABLE users ADD COLUMN sort_order INTEGER DEFAULT 0');
-          await db.execute('ALTER TABLE posts ADD COLUMN sort_order INTEGER DEFAULT 0');
+          await db.execute(
+            'ALTER TABLE users ADD COLUMN sort_order INTEGER DEFAULT 0',
+          );
+          await db.execute(
+            'ALTER TABLE posts ADD COLUMN sort_order INTEGER DEFAULT 0',
+          );
         }
       },
     );
