@@ -182,7 +182,6 @@ class _FeedScreenState extends State<FeedScreen> {
                       _items.insert(newIndex, item);
                     });
 
-                    // Persist new order to DB
                     for (int i = 0; i < _items.length; i++) {
                       final item = _items[i];
                       await DatabaseHelper.instance.updateItemOrder(
