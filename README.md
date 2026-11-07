@@ -13,7 +13,7 @@ flutter pub get
 # Check connected device
 flutter devices
 
-# Run in debug mode on your device (e.g., Xiaomi Redmi 7)
+# Run in debug mode on your device
 flutter run
 
 # Run tests
